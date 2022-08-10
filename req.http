@@ -1,0 +1,26 @@
+@url=http://localhost:7122
+
+### Login User
+Get {{url}}/user/signin?name=Matthias&password=aA@123456
+
+### Post New User
+Post {{url}}/user/create
+Content-Type: application/json
+
+{
+    "name":"Matthias",
+    "email":"maze@online.de",
+    "password":"aA@123456"
+}
+### Get Items of User
+Get {{url}}/item?id=62f4013cb7fcb386648da55c
+
+### Post new Item
+Post {{url}}/item
+Content-Type: application/json
+
+{
+    "UserId":"62f4013cb7fcb386648da55c",
+    "itemName":"First Entry",
+    "discription":"Holds some content as descriptional text"
+}
