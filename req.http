@@ -1,7 +1,13 @@
 @url=http://localhost:7122
 
 ### Login User
-Get {{url}}/user/signin?name=Matthias&password=aA@123456
+Post {{url}}/login
+Content-Type: application/json
+
+{
+    "name":"Matthias",
+    "password":"aA@123456"
+}
 
 ### Post New User
 Post {{url}}/user/create
@@ -13,7 +19,12 @@ Content-Type: application/json
     "password":"aA@123456"
 }
 ### Get Items of User
-Get {{url}}/item?id=62f4013cb7fcb386648da55c
+Post {{url}}/getItem
+Content-Type: application/json
+
+{
+    "id":"62f4013cb7fcb386648da55c"
+}
 
 ### Post new Item
 Post {{url}}/item

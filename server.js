@@ -45,8 +45,8 @@ app.post("/user/create", async(req,res,next)=>{
 })
 
 //Get Items
-app.get("/item", async(req,res,next)=>{
-    const items=await Items.find({UserId:req.query.id})
+app.post("/getItem", async(req,res,next)=>{
+    const items=await Items.find({UserId:req.body.id})
     res.send(items)
 })
 
