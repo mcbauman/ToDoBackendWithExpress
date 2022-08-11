@@ -25,11 +25,11 @@ app.use(cors());
 app.use(express.json());
 connect();
 //USE REQ:PARAMS/Req.xxx
-app.get("/user/signin", async(req,res,next)=>{
+app.post("/login", async(req,res,next)=>{
     try {
-        const user=await User.findOne({name:req.query.name})
+        const user=await User.findOne({name:req.body.name})
         if(!user){return next({status:405,message:"user doesnt exist"})}
-        if(req.query.password != user.password)
+        if(req.body.password != user.password)
         {res.send("password missmatch")}
         res.send(user._id)
     } catch (error) {
