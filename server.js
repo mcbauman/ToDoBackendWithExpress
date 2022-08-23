@@ -44,27 +44,59 @@ app.post("/login", async(req,res,next)=>{
 
 //Post Create New User
 app.post("/user/create", async(req,res,next)=>{
-    const user = await User.create({...req.body})
-    const user2 = await User.findOne({name:req.body.name})
-    const token=jwt.sign({uid:user2._id},process.env.SECRET,{expiresIn:"1d"})
+    try {
+        const user = await User.create({...req.body})
+        const user2 = await User.findOne({name:req.body.name})
+        const token=jwt.sign({uid:user2._id},process.env.SECRET,{expiresIn:"1d"})
     res.send(token)
+    } catch (error) {
+        next({status:400,message:error})
+    }
 })
 
 //Get Items
 app.post("/getItems", checkAuth, async(req,res,next)=>{
-    const items=await Items.find({UserId:req.userId})
-    res.send(items)
+    try {
+        const items=await Items.find({UserId:req.userId})
+        res.send(items)
+    } catch (error) {
+        next({status:400,message:error})
+    }
 })
 
 //Post Items
 app.post("/item", checkAuth, async(req,res, next)=>{
-    // console.log(req.body);
-    req.body= {itemName:req.body.itemName,
+    try {
+        // console.log(req.body);
+        req.body= {itemName:req.body.itemName,
         discription:req.body.discription, 
         UserId:req.userId}
     // console.log(req.body);
     await Items.create({...req.body})
     res.send("item stored")
+    } catch (error) {
+        next({status:400,message:error})
+    }
+})
+
+//Delete Item
+app.delete("/item", checkAuth, async(req,res,next)=>{
+    try {
+        await Items.deleteOne({_id:req.body.id})
+        res.send("item is deleted")
+    } catch (error) {
+        next({status:400,message:error})
+    }
+})
+
+//Update Item
+app.put("/item", checkAuth, async(req,res,next)=>{
+    try {
+        const any= await Items.findByIdAndUpdate(req.body.id,{itemName:req.body.itemName,discription:req.body.Discription},{new:true})
+        res.send("item is updated") 
+    } catch (error) {
+        next({status:400,message:error})
+    }
 })
 
 // Global Error Handler:
