@@ -92,7 +92,7 @@ app.delete("/item", checkAuth, async(req,res,next)=>{
 //Update Item
 app.put("/item", checkAuth, async(req,res,next)=>{
     try {
-        const any= await Items.findByIdAndUpdate(req.body.id,{itemName:req.body.itemName,discription:req.body.Discription},{new:true})
+        const any= await Items.findByIdAndUpdate(req.body.id,{itemName:req.body.ItemName,discription:req.body.Discription},{new:true})
         res.send("item is updated") 
     } catch (error) {
         next({status:400,message:error})
