@@ -4,6 +4,9 @@ import mongoose from "mongoose"
 import cors from "cors"
 import User from "./UserModel.js"
 import Items from "./ItemModel.js"
+import jwt from "jsonwebtoken"
+import { hash, compare } from "./crypto.js"
+import checkAuth from "./authentification.js"
 
 function connect(){
     const { DB_USER, DB_PASS, DB_HOST, DB_NAME } = process.env;
@@ -26,12 +29,14 @@ app.use(express.json());
 connect();
 //USE REQ:PARAMS/Req.xxx
 app.post("/login", async(req,res,next)=>{
+    console.log("Post REQUEST to LOGIN")
     try {
         const user=await User.findOne({name:req.body.name})
         if(!user){return next({status:405,message:"user doesnt exist"})}
         if(req.body.password != user.password)
         {res.send("password missmatch")}
-        res.send(user._id)
+        const token=jwt.sign({uid:user._id},process.env.SECRET,{expiresIn:"1d"})
+        res.send(token)
     } catch (error) {
         next({status:400,message:error})
     }
@@ -41,18 +46,23 @@ app.post("/login", async(req,res,next)=>{
 app.post("/user/create", async(req,res,next)=>{
     const user = await User.create({...req.body})
     const user2 = await User.findOne({name:req.body.name})
-    res.send(user2._id)
+    const token=jwt.sign({uid:user2._id},process.env.SECRET,{expiresIn:"1d"})
+    res.send(token)
 })
 
 //Get Items
-app.post("/getItem", async(req,res,next)=>{
-    const items=await Items.find({UserId:req.body.id})
+app.post("/getItems", checkAuth, async(req,res,next)=>{
+    const items=await Items.find({UserId:req.userId})
     res.send(items)
 })
 
 //Post Items
-app.post("/item", async(req,res, next)=>{
-    console.log(req.body);
+app.post("/item", checkAuth, async(req,res, next)=>{
+    // console.log(req.body);
+    req.body= {itemName:req.body.itemName,
+        discription:req.body.discription, 
+        UserId:req.userId}
+    // console.log(req.body);
     await Items.create({...req.body})
     res.send("item stored")
 })

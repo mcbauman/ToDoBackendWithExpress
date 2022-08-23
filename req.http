@@ -14,24 +14,24 @@ Post {{url}}/user/create
 Content-Type: application/json
 
 {
-    "name":"Matthias",
-    "email":"maze@online.de",
+    "name":"Cynthia",
+    "email":"cynthia@online.de",
     "password":"aA@123456"
 }
 ### Get Items of User
-Post {{url}}/getItem
+Post {{url}}/getItems
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MmY0MDEzY2I3ZmNiMzg2NjQ4ZGE1NWMiLCJpYXQiOjE2NjEyMzI0MTAsImV4cCI6MTY2MTMxODgxMH0.NupeaCWSLI2C-QE4bzM8IWM2FpfhVXJJ1AQ0lah-d8o
 
 {
-    "id":"62f4013cb7fcb386648da55c"
 }
 
 ### Post new Item
 Post {{url}}/item
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MmY0MDEzY2I3ZmNiMzg2NjQ4ZGE1NWMiLCJpYXQiOjE2NjEyMzI0MTAsImV4cCI6MTY2MTMxODgxMH0.NupeaCWSLI2C-QE4bzM8IWM2FpfhVXJJ1AQ0lah-d8o
 
 {
-    "UserId":"62f4013cb7fcb386648da55c",
-    "itemName":"First Entry",
+    "itemName":"Second Entry",
     "discription":"Holds some content as descriptional text"
 }
